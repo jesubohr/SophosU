@@ -5,9 +5,22 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SophosU</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
   </head>
   <body>
     <div id="root"></div>
+    <!-- This script is used to enable dark mode on the page. -->
+    <script>
+      const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (darkMode) document.body.classList.add('bp4-dark');
+      
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (e.matches) document.body.classList.add('bp4-dark');
+        else document.body.classList.remove('bp4-dark');
+      });
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
