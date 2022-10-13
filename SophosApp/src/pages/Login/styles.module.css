@@ -1,0 +1,16 @@
+.container {
+  width: 100%;
+  max-width: 40ch;
+}
+
+.title {
+  margin-bottom: 2rem;
+}
+
+.form {
+  font-size: 1.1rem;
+}
+
+.helperText {
+  max-width: 45ch;
+}
