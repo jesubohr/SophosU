@@ -7,6 +7,8 @@ import { AuthProvider } from "@/context/AuthContext"
 import App from "./App"
 import { ProtectedRoute } from "@/components/ProtectedRoute"
 import { NotFound } from "@/pages/NotFound"
+import { Login } from "@/pages/Login"
+import { Register } from "@/pages/Register"
 import { Home } from "@/pages/Home"
 
 import "./index.css"
@@ -25,6 +27,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
               } />
             </Route>
             <Route path="*" element={ <NotFound /> } />
+            <Route path="/login" element={ <Login /> } />
+            <Route path="/register" element={ <Register /> } />
           </Routes>
         </AuthProvider>
       </QueryClientProvider>
