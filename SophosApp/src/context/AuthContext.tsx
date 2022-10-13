@@ -2,7 +2,7 @@ import type { IAuthContext, AuthProviderProps, UserProp } from "@/types/AuthCont
 import { useState, createContext, useContext } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { useCookie } from "@/hooks/useCookie"
-import { fetchUserToken } from "@/api/auth"
+import { userLogin, userRegister } from "@/api/auth"
 
 const AuthContext = createContext<IAuthContext>({} as IAuthContext)
 
@@ -13,8 +13,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const navigate = useNavigate()
   const { search } = useLocation()
 
+  async function handleRegister (user: UserProp) {
+    const { token } = await userRegister(user)
+    if (!token) return
+
+    setToken(token)
+    setSessionToken(token)
+
+    navigate('/')
+  }
+
   async function handleLogin (user: UserProp) {
-    const { token } = await fetchUserToken(user)
+    const { token } = await userLogin(user)
     if(!token) return
 
     setToken(token)
@@ -25,7 +35,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     navigate(redirect)
   }
 
-  async function handleLogout () {
+  function handleLogout () {
     setToken('')
     setSessionToken('')
     navigate('/login')
@@ -33,6 +43,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const value = {
     token,
+    onRegister: handleRegister,
     onLogin: handleLogin,
     onLogout: handleLogout
   }

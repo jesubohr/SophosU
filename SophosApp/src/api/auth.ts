@@ -7,13 +7,20 @@ const mockFetch = (url: string, options: any) => {
   })
 }
 
-export async function fetchUserToken (user: UserProp) {
-  const response = await mockFetch('API-URL', {
+const API_URL = (route: string) => `http://localhost:3000/api/${route}`
+
+export async function userLogin (user: UserProp) {
+  const res = await mockFetch(API_URL('login'), {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
     body: JSON.stringify(user)
   })
-  return response.json()
+  return res.json()
+}
+
+export async function userRegister (user: UserProp) {
+  const res = await mockFetch(API_URL('register'), {
+    method: 'POST',
+    body: JSON.stringify(user)
+  })
+  return res.json()
 }
