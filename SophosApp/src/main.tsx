@@ -19,12 +19,12 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <QueryClientProvider client={ new QueryClient() }>
         <AuthProvider>
           <Routes>
-            <Route path="/" element={ <App /> }>
-              <Route path="/" element={
-                <ProtectedRoute>
-                  <Home />
-                </ProtectedRoute>
-              } />
+            <Route path="/" element={
+              <ProtectedRoute>
+                <App />
+              </ProtectedRoute>
+            }>
+              <Route index element={ <Home /> } />
             </Route>
             <Route path="*" element={ <NotFound /> } />
             <Route path="/login" element={ <Login /> } />
