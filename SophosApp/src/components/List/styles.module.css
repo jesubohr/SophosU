@@ -1,0 +1,31 @@
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 2rem;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.table {
+  flex-grow: 1;
+  max-height: calc(100vh - 216px);
+  overflow-y: auto;
+}
+
+.num-cell {
+  text-align: center;
+}
+
+.actions {
+  padding-block: 3px;
+  width: 100%;
+  justify-content: space-evenly;
+}
