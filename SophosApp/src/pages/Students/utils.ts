@@ -1,3 +1,61 @@
+import type { InputField } from "@/types/RecordComponents"
+export const INPUT_FIELDS: InputField[] = [
+  {
+    name: "code",
+    label: "Code",
+    type: "text",
+    maxLength: 9,
+    required: true,
+  },
+  {
+    name: "fullname",
+    label: "Fullname",
+    type: "text",
+    required: true,
+  },
+  {
+    name: "birthdate",
+    label: "Birthdate",
+    type: "date",
+    required: true,
+  },
+  {
+    name: "cellphone",
+    label: "Cellphone",
+    type: "text",
+    maxLength: 10,
+    required: true,
+  },
+  {
+    name: "email",
+    label: "Email",
+    type: "email",
+    required: true,
+  },
+  {
+    name: "faculty",
+    label: "Faculty",
+    type: "text",
+    required: true,
+  },
+  {
+    name: "enrolled_credits",
+    label: "Enrolled Credits",
+    type: "number",
+    min: 0,
+    max: 21,
+    required: true,
+  },
+  {
+    name: "current_semester",
+    label: "Current Semester",
+    type: "number",
+    min: 1,
+    max: 10,
+    required: true,
+  }
+]
+
 export const StudentsExample = [{
   "id": 1,
   "fullname": "Erhart Osgorby",
