@@ -11,6 +11,8 @@ import { Login } from "@/pages/Login"
 import { Register } from "@/pages/Register"
 import { Home } from "@/pages/Home"
 
+import { ListStudents } from "@/pages/Students"
+
 import "./index.css"
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -25,6 +27,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
               </ProtectedRoute>
             }>
               <Route index element={ <Home /> } />
+              <Route path="/students">
+                <Route index element={ <ListStudents /> } />
+              </Route>
             </Route>
             <Route path="*" element={ <NotFound /> } />
             <Route path="/login" element={ <Login /> } />
