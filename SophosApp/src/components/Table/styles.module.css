@@ -1,0 +1,41 @@
+.table, .header, .row, .index-cell, .cell {
+  border: 1px solid #1a1d22;
+}
+
+.table {
+  width: 100%;
+  color: #fff;
+  background-color: #383e47;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.header {
+  padding: 0.65rem;
+}
+
+.header-cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.row {
+  min-height: 40px;
+}
+
+.index-cell {
+  padding-inline: 5px;
+  color: #fffa;
+  text-align: center;
+  font-size: 14px;
+}
+
+.cell {
+  position: relative;
+  padding-inline: 0.65rem;
+  background-color: #2f343c;
+  overflow: hidden;
+  white-space: nowrap;
+}
