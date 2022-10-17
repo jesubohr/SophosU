@@ -4,8 +4,7 @@
 
 .table {
   width: 100%;
-  color: #fff;
-  background-color: #383e47;
+  background-color: var(--table-bg);
   border-collapse: collapse;
   border-spacing: 0;
 }
@@ -28,7 +27,6 @@
 .index-cell {
   padding-inline: 5px;
   width: 30px;
-  color: #fffa;
   text-align: center;
   font-size: 14px;
 }
@@ -36,7 +34,11 @@
 .cell {
   position: relative;
   padding-inline: 0.65rem;
-  background-color: #2f343c;
+  background-color: var(--table-cell-bg);
   overflow: hidden;
   white-space: nowrap;
+}
+
+.cell:hover {
+  background-color: var(--table-cell-hover);
 }

@@ -7,6 +7,10 @@
   --main-text: #fffc;
   --main-bg: #242424;
 
+  --table-bg: #383e47;
+  --table-cell-bg: #2f343c;
+  --table-cell-hover: #383e47;
+
   color-scheme: light dark;
   color: var(--main-text);
   background-color: var(--main-bg);
@@ -61,5 +65,9 @@ input[type="date"]:valid::before {
   :root {
     --main-text: #242424;
     --main-bg: #fff;
+
+    --table-bg: #ddd;
+    --table-cell-bg: #fff;
+    --table-cell-hover: #dfdfdf;
   }
 }
