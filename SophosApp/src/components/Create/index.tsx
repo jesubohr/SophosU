@@ -4,12 +4,13 @@ import styles from "./styles.module.css"
 
 export interface ICreateRecordProps {
   title: string
+  buttonLabel: string
   fields: InputField[]
   onSubmit: (record: any) => void
 }
 
 export const CreateRecord = (props: ICreateRecordProps) => {
-  const { title, fields, onSubmit } = props
+  const { title, buttonLabel, fields, onSubmit } = props
 
   function handleSubmit (event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -29,7 +30,7 @@ export const CreateRecord = (props: ICreateRecordProps) => {
 
   return (
     <main>
-      <h1 className={ styles.title }>Add { title }</h1>
+      <h1 className={ styles.title }>{ title }</h1>
       <form onSubmit={ handleSubmit } className={ styles.form }>
         {
           fields.map((input, index) => (
@@ -52,7 +53,7 @@ export const CreateRecord = (props: ICreateRecordProps) => {
           large
           type="submit"
           intent="primary"
-          text={ `Create ${title}` }
+          text={ buttonLabel }
         />
       </form>
     </main>
