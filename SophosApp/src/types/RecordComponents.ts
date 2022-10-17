@@ -6,4 +6,5 @@ export type InputField = {
   min?: number
   max?: number
   maxLength?: number
+  placeholder: string
 }

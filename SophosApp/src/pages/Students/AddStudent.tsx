@@ -12,7 +12,8 @@ export const AddStudent = () => {
 
   return (
     <CreateRecord
-      title="Student"
+      title="Add Student"
+      buttonLabel="Create Student"
       fields={ INPUT_FIELDS }
       onSubmit={ handleSubmit }
     />
