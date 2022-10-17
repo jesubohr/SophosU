@@ -27,6 +27,7 @@
 
 .index-cell {
   padding-inline: 5px;
+  width: 30px;
   color: #fffa;
   text-align: center;
   font-size: 14px;

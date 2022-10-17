@@ -10,9 +10,9 @@
   color-scheme: light dark;
   color: var(--main-text);
   background-color: var(--main-bg);
-  
+
   font-synthesis: none;
-  text-rendering: optimizeLegibility; 
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
@@ -24,7 +24,7 @@
   align-items: center;
   margin-inline: auto;
   padding-block: 50px;
-  width: min(calc(100% - 4rem), 800px);
+  width: min(calc(100% - 4rem), 1200px);
   height: 100vh;
   font-family: Figtree, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
@@ -45,6 +45,16 @@ main {
 ::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 5px;
+}
+
+input[type="date"]::before {
+  content: attr(placeholder);
+  width: 100%;
+  opacity: 0.75;
+}
+input[type="date"]:focus::before,
+input[type="date"]:valid::before {
+  display: none
 }
 
 @media (prefers-color-scheme: light) {
