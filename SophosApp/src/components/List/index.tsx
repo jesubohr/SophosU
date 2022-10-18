@@ -14,10 +14,12 @@ export interface IListRecordsProps {
   route: string
   headers: string[]
   searchKeys: string[]
+  onDelete: (code: string) => void
 }
 
 export const ListRecords = (props: IListRecordsProps) => {
-  const { title, route, headers, data, searchKeys } = props
+  const { title, route, headers } = props
+  const { data, searchKeys, onDelete } = props
   const [records, setRecords] = useState(data)
   const navigate = useNavigate()
 
@@ -72,11 +74,9 @@ export const ListRecords = (props: IListRecordsProps) => {
 
   // Routing Methods
   const createRecord = () => navigate(`/${route}/add`)
-  const viewRecord = (index: number) => navigate(`/${route}/${records[index].id}`)
-  const editRecord = (index: number) => navigate(`/${route}/${records[index].id}/edit`)
-  const deleteRecord = (index: number) => {
-    setRecords((prevRecords) => prevRecords.filter((_, i) => i !== index))
-  }
+  const viewRecord = (index: number) => navigate(`/${route}/${records[index].code}`)
+  const editRecord = (index: number) => navigate(`/${route}/${records[index].code}/edit`)
+  const deleteRecord = (index: number) => onDelete(records[index].code)
 
   return (
     <main>
