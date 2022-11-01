@@ -11,7 +11,7 @@ import { Login } from "@/pages/Login"
 import { Register } from "@/pages/Register"
 import { Home } from "@/pages/Home"
 
-import { ListStudents } from "@/pages/Students"
+import { ListStudents, AddStudent, EditStudent } from "@/pages/Students"
 
 import "./index.css"
 
@@ -29,6 +29,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
               <Route index element={ <Home /> } />
               <Route path="/students">
                 <Route index element={ <ListStudents /> } />
+                <Route path="add" element={ <AddStudent /> } />
+                <Route path=":id/edit" element={ <EditStudent /> } />
               </Route>
             </Route>
             <Route path="*" element={ <NotFound /> } />
