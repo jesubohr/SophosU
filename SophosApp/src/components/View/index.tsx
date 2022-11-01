@@ -72,7 +72,7 @@ const Item = ({ title, value }: ItemProps) => {
 
 interface ItemListProps {
   title: string
-  items: { id: number, name: string }[]
+  items: { code: string, name: string }[]
   route: string
 }
 const ItemList = ({ title, items, route }: ItemListProps) => {
@@ -83,13 +83,13 @@ const ItemList = ({ title, items, route }: ItemListProps) => {
         {
           items.map(item => (
             <AnchorButton
-              key={ item.id }
+              key={ item.code }
               large
               outlined
               intent="primary"
               text={ item.name }
               className={ styles["list-item"] }
-              href={ `/${route}/${item.id}` }
+              href={ `/${route}/${item.code}` }
             />
           ))
         }
