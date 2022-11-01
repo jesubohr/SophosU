@@ -6,6 +6,119 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+enum Title {
+  Bachelor
+  Master
+  Doctorate
+}
+
+model AdminUser {
+  id       Int    @id @default(autoincrement())
+  email    String @unique @db.VarChar(255)
+  password String @db.VarChar(255)
+
+  @@index([email])
+}
+
+model Student {
+  id               Int      @id @default(autoincrement())
+  code             String   @unique @db.VarChar(10)
+  fullname         String   @unique @db.VarChar(80)
+  birthdate        DateTime
+  cellphone        String?  @db.VarChar(17)
+  email            String   @db.VarChar(255)
+  password         String   @db.VarChar(255)
+  faculty          Faculty  @relation(fields: [faculty_id], references: [id])
+  faculty_id       Int
+  enrolled_credits Int      @default(0)
+  current_semester Int      @default(1)
+  created_at       DateTime @default(now())
+
+  enrolled_courses Student_at_Course[]
+  taken_courses    Student_took_Course[]
+
+  @@index([code])
+}
+
+model Teacher {
+  id               Int      @id @default(autoincrement())
+  code             String   @unique @db.VarChar(10)
+  fullname         String   @unique @db.VarChar(80)
+  birthdate        DateTime
+  cellphone        String?  @db.VarChar(17)
+  email            String   @db.VarChar(255)
+  password         String   @db.VarChar(255)
+  faculty          Faculty  @relation(fields: [faculty_id], references: [id])
+  faculty_id       Int
+  academic_title   Title
+  years_experience Int      @default(0)
+  created_at       DateTime @default(now())
+
+  taught_courses Teacher_has_Course[]
+
+  @@index([code])
+}
+
+model Course {
+  id                Int      @id @default(autoincrement())
+  code              String   @unique @db.VarChar(10)
+  name              String   @unique @db.VarChar(100)
+  precourse         Course?  @relation("CourseCourse", fields: [precourse_id], references: [id])
+  precourse_id      Int?
+  faculty           Faculty  @relation(fields: [faculty_id], references: [id])
+  faculty_id        Int
+  required_credits  Int      @default(3)
+  enrolled_students Int      @default(0)
+  max_students      Int
+  created_at        DateTime @default(now())
+
+  current_students Student_at_Course[]
+  old_students     Student_took_Course[]
+  assigned_teacher Teacher_has_Course?
+  precourse_course Course[]              @relation("CourseCourse")
+
+  @@index([code])
+}
+
+model Faculty {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(100)
+
+  students Student[]
+  teachers Teacher[]
+  courses  Course[]
+}
+
+model Student_at_Course {
+  student    Student  @relation(fields: [student_id], references: [id])
+  student_id Int
+  course     Course   @relation(fields: [course_id], references: [id])
+  course_id  Int
+  created_at DateTime @default(now())
+
+  @@id([student_id, course_id], name: "student_course")
+}
+
+model Student_took_Course {
+  student    Student  @relation(fields: [student_id], references: [id])
+  student_id Int
+  course     Course   @relation(fields: [course_id], references: [id])
+  course_id  Int
+  created_at DateTime @default(now())
+
+  @@id([student_id, course_id], name: "student_course")
+}
+
+model Teacher_has_Course {
+  teacher    Teacher  @relation(fields: [teacher_id], references: [id])
+  teacher_id Int
+  course     Course   @relation(fields: [course_id], references: [id])
+  course_id  Int      @unique
+  created_at DateTime @default(now())
+
+  @@id([teacher_id, course_id], name: "teacher_course")
 }
