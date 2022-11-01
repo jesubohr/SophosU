@@ -13,15 +13,16 @@ function mockFetch<T> (url: string, options: any = {}) {
 }
 
 // Authentication
+type AuthResponse = { token: string }
 export async function userLogin (user: UserProp) {
-  const res = await mockFetch(API_URL('login'), {
+  const res = await mockFetch<AuthResponse>(API_URL('login'), {
     method: 'POST',
     body: JSON.stringify(user)
   })
   return res.json({ token: 'averysecuretoken' })
 }
 export async function userRegister (user: UserProp) {
-  const res = await mockFetch(API_URL('register'), {
+  const res = await mockFetch<AuthResponse>(API_URL('register'), {
     method: 'POST',
     body: JSON.stringify(user)
   })
@@ -48,6 +49,7 @@ export async function getStudent (code: string) {
   return res.json(StudentsExample.find(s => s.code === code))
 }
 export async function createStudent (student: Student) {
+  console.log(student)
   const res = await mockFetch<Student>(API_URL('students'), {
     method: 'POST',
     body: JSON.stringify(student)
