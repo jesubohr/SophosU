@@ -14,7 +14,7 @@ export async function getAllStudents (req: Request, res: Response) {
 
   try {
     const students = await StudentServices.getAllStudents(currentPage)
-    return res.json({ status: 'OK', data: students })
+    return res.json({ status: 'OK', page: currentPage, data: students })
   } catch (error) {
     return res.status(500).json({ error: 'Internal server error' })
   }
@@ -46,7 +46,7 @@ export async function createStudent (req: Request, res: Response) {
   ) return res.status(400).json({ error: 'Missing student data' })
 
   try {
-    const student = StudentServices.createStudent({
+    const student = await StudentServices.createStudent({
       code, fullname, birthdate,
       cellphone, email, password,
       faculty_id, enrolled_credits, current_semester

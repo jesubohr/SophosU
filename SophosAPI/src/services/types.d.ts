@@ -17,7 +17,7 @@ export interface GetStundent implements Omit<Student, 'id', 'password', 'faculty
   taken_courses: { code: string, name: string }[]
 }
 
-
+import type { Title } from "@prisma/client"
 export type Teacher = {
   code: string
   fullname: string
@@ -26,7 +26,7 @@ export type Teacher = {
   email: string
   password: string
   faculty_id: number
-  academic_title: string
+  academic_title: Title
   years_experience: number
 }
 export type PutTeacher = Omit<Teacher, 'code'>
