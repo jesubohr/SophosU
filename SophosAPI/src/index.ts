@@ -12,8 +12,10 @@ app.use(express.json())
 
 // Routes
 import students from './routes/student.routes'
+import teachers from './routes/teacher.routes'
 
 app.use('/students', students)
+app.use('/teachers', teachers)
 app.get('*', (_, res) => {
   res.status(404).send('Not Found')
 })
