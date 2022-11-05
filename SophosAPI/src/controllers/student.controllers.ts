@@ -1,4 +1,5 @@
 import type { Request, Response } from "express"
+import type { CourseType } from "../services/student.services"
 import * as StudentServices from "../services/student.services"
 
 export async function getAllStudents (req: Request, res: Response) {
@@ -94,5 +95,33 @@ export async function deleteStudent (req: Request, res: Response) {
     return res.json({ status: 'OK', data: student }) 
   } catch (error) {
     return res.status(404).json({ error: 'Student not found' })
+  }
+}
+
+export async function addCourse (req: Request, res: Response) {
+  const service = req.path.split('/')[1] as CourseType
+
+  const { student_id, course_id } = req.body
+  if (!student_id || !course_id) return res.status(400).json({ error: 'Missing student or course id' })
+
+  try {
+    const studentCourse = await StudentServices.addCourse(service, student_id, course_id)
+    return res.json({ status: 'OK', data: studentCourse })
+  } catch (error) {
+    return res.status(404).json({ error: 'Student or Course not found' })
+  }
+}
+
+export async function deleteCourse (req: Request, res: Response) {
+  const service = req.path.split('/')[1] as CourseType
+
+  const { student_id, course_id } = req.body
+  if (!student_id || !course_id) return res.status(400).json({ error: 'Missing student or course id' })
+
+  try {
+    const studentCourse = await StudentServices.deleteCourse(service, student_id, course_id)
+    return res.json({ status: 'OK', data: studentCourse })
+  } catch (error) {
+    return res.status(404).json({ error: 'Student or Course not found' })
   }
 }

@@ -4,7 +4,9 @@ import {
   getStudentByCode,
   createStudent,
   updateStudent,
-  deleteStudent
+  deleteStudent,
+  addCourse,
+  deleteCourse
 } from "../controllers/student.controllers"
 const router = Router()
 
@@ -13,4 +15,10 @@ export default router
   .get('/:code', getStudentByCode)
   .post('/', createStudent)
   .put('/:code', updateStudent)
-  .delete('/:code', deleteStudent)
+  .post('/enrolled', addCourse)
+  .post('/taken', addCourse)
+  .delete('/:code', (req, res) => {
+    const { code } = req.params
+    if (code === 'enrolled' || code === 'taken') return deleteCourse(req, res)
+    return deleteStudent(req, res)
+  })

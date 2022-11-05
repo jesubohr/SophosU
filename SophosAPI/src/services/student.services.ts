@@ -52,7 +52,7 @@ export async function getStudentByCode (code: string): Promise<GetStundent> {
   if (!student) throw new Error()
 
   const filteredStudent = {
-    ...exclude(student, 'id', 'password', 'faculty_id'),
+    ...exclude(student, 'password', 'faculty_id'),
     faculty: student.faculty.name,
     enrolled_courses: student.enrolled_courses.map(({ course }) => course),
     taken_courses: student.taken_courses.map(({ course }) => course),
@@ -71,4 +71,29 @@ export async function updateStudent (code: string, student: PutStudent) {
 
 export async function deleteStudent (code: string) {
   return await DB.student.delete({ where: { code } })
+}
+
+export type CourseType = "enrolled" | "taken"
+export async function addCourse (type: CourseType, student_id: number, course_id: number) {
+  if (type === 'enrolled') {
+    return await DB.student_at_Course.create({
+      data: { student_id, course_id },
+    })
+  } else if (type === 'taken') {
+    return await DB.student_took_Course.create({
+      data: { student_id, course_id },
+    })
+  }
+}
+
+export async function deleteCourse(type: CourseType, student_id: number, course_id: number) {
+  if (type === 'enrolled') {
+    return await DB.student_at_Course.delete({
+      where: { student_course: { student_id, course_id } },
+    })
+  } else if (type === 'taken') {
+    return await DB.student_took_Course.delete({
+      where: { student_course: { student_id, course_id } },
+    })
+  }
 }
