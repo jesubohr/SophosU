@@ -51,8 +51,8 @@ export interface GetCourses implements Pick<Course, 'code', 'name', 'precourse',
   available_quota: number
 }
 export interface GetCourse implements Omit<Course, 'id', 'precourse_id', 'faculty_id'> {
-  precourse: string
+  precourse?: string
   faculty: string
-  assigned_teacher: { code: string, fullname: string }
+  assigned_teacher?: { code: string, fullname: string }
   current_students: { code: string, fullname: string }[]
 }
