@@ -22,6 +22,12 @@ export async function Login (req: Request, res: Response) {
   return res.status(200).json({ token, refreshToken })
 }
 
+export async function Logout (req: Request, res: Response) {
+  const { refreshToken } = req.body
+  REFRESH_TOKENS.delete(refreshToken)
+  return res.status(204).json(null)
+}
+
 export async function Register (req: Request, res: Response) {
   const { email, password } = req.body
   if (!email || !password) return res.status(400).json({ error: "Missing email or password" })
