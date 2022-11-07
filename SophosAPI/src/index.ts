@@ -15,11 +15,14 @@ import students from './routes/student.routes'
 import teachers from './routes/teacher.routes'
 import courses from './routes/course.routes'
 import faculties from './routes/faculty.routes'
+import auth from './routes/auth.routes'
+import { authenticateToken } from "./middlewares/auth.middlewares"
 
-app.use('/students', students)
-app.use('/teachers', teachers)
-app.use('/courses', courses)
-app.use('/faculties', faculties)
+app.use('/students', authenticateToken, students)
+app.use('/teachers', authenticateToken, teachers)
+app.use('/courses', authenticateToken, courses)
+app.use('/faculties', authenticateToken, faculties)
+app.use('/auth', auth)
 app.get('/', (_, res) => {
   res.send(`
   <h1>SophosU API</h1>
