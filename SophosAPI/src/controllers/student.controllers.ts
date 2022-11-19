@@ -5,6 +5,7 @@ import * as StudentServices from "../services/student.services"
 export async function getAllStudents (req: Request, res: Response) {
   const { page } = req.query
   const maxPage = await StudentServices.getMaxPage()
+  const maxItems = StudentServices.maxItemsPerPage
 
   const possiblePage = page ? parseInt(page as string) : 1
   const currentPage = possiblePage > 0
@@ -15,7 +16,13 @@ export async function getAllStudents (req: Request, res: Response) {
 
   try {
     const students = await StudentServices.getAllStudents(currentPage)
-    return res.json({ status: 'OK', page: currentPage, data: students })
+    return res.json({
+      status: 'OK',
+      page: currentPage,
+      maxPage,
+      maxItems,
+      data: students
+    })
   } catch (error) {
     return res.status(500).json({ error: 'Internal server error' })
   }

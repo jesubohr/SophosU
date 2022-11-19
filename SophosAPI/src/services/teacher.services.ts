@@ -2,7 +2,7 @@ import type { Teacher, PutTeacher, GetTeacher, GetTeachers } from "./types"
 import { exclude } from "../utils/services"
 import { DB } from "../database"
 
-const maxItemsPerPage = 10
+export const maxItemsPerPage = 10
 export const getMaxPage = async () => Math.ceil(await DB.teacher.count() / maxItemsPerPage)
 
 export async function getAllTeachers (page: number): Promise<GetTeachers[]> {

@@ -4,6 +4,7 @@ import * as CourseServices from "../services/course.services"
 export async function getAllCourses (req: Request, res: Response) {
   const { page } = req.query
   const maxPage = await CourseServices.getMaxPage()
+  const maxItems = CourseServices.maxItemsPerPage
 
   const possiblePage = page ? parseInt(page as string) : 1
   const currentPage = possiblePage > 0
@@ -13,8 +14,14 @@ export async function getAllCourses (req: Request, res: Response) {
     : 1
 
   try {
-    const students = await CourseServices.getAllCourses(currentPage)
-    return res.json({ status: 'OK', page: currentPage, data: students })
+    const courses = await CourseServices.getAllCourses(currentPage)
+    return res.json({
+      status: 'OK',
+      page: currentPage,
+      maxPage,
+      maxItems,
+      data: courses
+    })
   } catch (error) {
     return res.status(500).json({ error: 'Internal server error' })
   }
@@ -25,8 +32,8 @@ export async function getCourseByCode (req: Request, res: Response) {
   if (!code) return res.status(400).json({ error: 'Missing student code' })
 
   try {
-    const student = await CourseServices.getCourseByCode(code)
-    return res.json({ status: 'OK', data: student })
+    const course = await CourseServices.getCourseByCode(code)
+    return res.json({ status: 'OK', data: course })
   } catch (error) {
     return res.status(404).json({ error: 'Course not found' })
   }

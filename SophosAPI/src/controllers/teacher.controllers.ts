@@ -4,6 +4,7 @@ import * as TeacherServices from "../services/teacher.services"
 export async function getAllTeachers (req: Request, res: Response) {
   const { page } = req.query
   const maxPage = await TeacherServices.getMaxPage()
+  const maxItems = TeacherServices.maxItemsPerPage
 
   const possiblePage = page ? parseInt(page as string) : 1
   const currentPage = possiblePage > 0
@@ -14,7 +15,13 @@ export async function getAllTeachers (req: Request, res: Response) {
 
   try {
     const teachers = await TeacherServices.getAllTeachers(currentPage)
-    return res.json({ status: 'OK', page: currentPage, data: teachers })
+    return res.json({
+      status: 'OK',
+      page: currentPage,
+      maxPage,
+      maxItems,
+      data: teachers
+    })
   } catch (error) {
     return res.status(500).json({ error: 'Internal server error' })
   }

@@ -2,7 +2,7 @@ import type { Course, PutCourse, GetCourse, GetCourses } from "./types"
 import { exclude } from "../utils/services"
 import { DB } from "../database"
 
-const maxItemsPerPage = 20
+export const maxItemsPerPage = 20
 export const getMaxPage = async () => Math.ceil(await DB.course.count() / maxItemsPerPage)
 
 export async function getAllCourses (page: number): Promise<GetCourses[]> {
