@@ -1,7 +1,7 @@
 {
-  "name": "sophos-university-app",
+  "name": "sophosapp",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.5.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -17,7 +17,7 @@
     "react-router-dom": "6.4.1"
   },
   "devDependencies": {
-    "@types/node": "^18.11.8",
+    "@types/node": "18.11.8",
     "@types/react": "18.0.17",
     "@types/react-dom": "18.0.6",
     "@vitejs/plugin-react": "2.1.0",
