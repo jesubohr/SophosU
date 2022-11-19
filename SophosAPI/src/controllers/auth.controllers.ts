@@ -54,7 +54,7 @@ export async function refreshToken(req: Request, res: Response) {
     if(!decoded) return res.status(403).json({ error: "Access denied. Invalid token" })
 
     try {
-      const token = createToken(decoded.sub as string, "refresh")
+      const token = createToken(decoded.sub as string, "access")
       return res.status(200).json({ token })
     } catch (error) {
       return res.status(500).json({ error: "Internal server error" })
