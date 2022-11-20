@@ -1,32 +1,39 @@
 import type { Student } from "@/types/RecordModel"
 import { useNavigate } from "react-router-dom"
-import { useMutation } from "@tanstack/react-query"
-import { createStudent } from "@/api/auth"
-import { STUDENT_INPUTS } from "@/utils/inputFields"
-import { CreateRecord } from "@/components/Create"
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query"
+import { createStudent, getFaculties } from "@/api/auth"
+import { STUDENT_INPUTS, getOptions } from "@/utils/inputFields"
 
+import { ErrorView } from "@/components/Error"
+import { LoadingView } from "@/components/Loading"
+import { CreateRecord } from "@/components/Create"
 
 export const AddStudent = () => {
   const navigate = useNavigate()
-  const { mutate, isLoading, isError } = useMutation(createStudent, {
+  const queryClient = useQueryClient()
+
+  const { data: faculties } = useQuery(["faculties"], getFaculties)
+  const { mutate, isLoading, isError, error } = useMutation(createStudent, {
     onSuccess: () => {
+      queryClient.invalidateQueries(["students"])
       navigate("/students")
-    },
+    }
   })
 
-  function handleSubmit (student: Student) {
+  function handleSubmit(student: Student) {
     mutate(student)
   }
 
-  if (isLoading) return <p>Loading...</p>
-  if (isError) return <p>Error</p>
+  if (isLoading) return <LoadingView />
+  if (isError) return <ErrorView message={(error as Error)?.message} />
 
   return (
     <CreateRecord
       title="Add Student"
       buttonLabel="Create Student"
-      fields={ STUDENT_INPUTS }
-      onSubmit={ handleSubmit }
+      fields={STUDENT_INPUTS}
+      options={faculties?.map(getOptions)}
+      onSubmit={handleSubmit}
     />
   )
 }
