@@ -1,0 +1,13 @@
+.container {
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.title {
+  font-size: 3rem;
+}
+
+.description {
+  font-size: 1.5rem;
+}
