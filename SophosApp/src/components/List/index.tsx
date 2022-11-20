@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { Popover2 } from "@blueprintjs/popover2"
 import { Menu, MenuItem, Position } from "@blueprintjs/core"
@@ -10,16 +10,21 @@ import styles from "./styles.module.css"
 
 export interface IListRecordsProps {
   data: any[]
+  page: number
+  maxPage: number
+  maxItems: number
   title: string
   route: string
   headers: string[]
   searchKeys: string[]
+  onPageChange: (page: number) => void
   onDelete: (code: string) => void
 }
 
 export const ListRecords = (props: IListRecordsProps) => {
   const { title, route, headers } = props
   const { data, searchKeys, onDelete } = props
+  const { page, maxPage, maxItems, onPageChange } = props
   const [records, setRecords] = useState(data)
   const navigate = useNavigate()
 
@@ -75,8 +80,12 @@ export const ListRecords = (props: IListRecordsProps) => {
   // Routing Methods
   const createRecord = () => navigate(`/${route}/add`)
   const viewRecord = (index: number) => navigate(`/${route}/${records[index].code}`)
-  const editRecord = (index: number) => navigate(`/${route}/${records[index].code}/edit`)
+  const editRecord = (index: number) => navigate(`/${route}/edit/${records[index].code}`)
   const deleteRecord = (index: number) => onDelete(records[index].code)
+
+  useEffect(() => {
+    setRecords(data)
+  }, [data])
 
   return (
     <main>
@@ -101,11 +110,27 @@ export const ListRecords = (props: IListRecordsProps) => {
       <div className={ styles.table }>
         <Table
           numRows={ records.length }
+          baseRowIndex={ (page - 1) * maxItems }
           columnHeaders={ headers }
           cellRenderer={ cellRenderer }
           headerRenderer={ headerRenderer }
         />
       </div>
+      <ButtonGroup className={ styles["pagination-container"] }>
+        <Button icon="chevron-left" onClick={ () => onPageChange(page - 1) }/>
+        <div className={ styles["pages"] }>
+          {
+            Array.from({ length: maxPage }, (_, i) => i + 1).map(num => (
+              <Button
+                key={ num }
+                active={ num === page }
+                onClick={ () => onPageChange(num) }
+              >{ num }</Button>
+            ))
+          }
+        </div>
+        <Button icon="chevron-right" onClick={ () => onPageChange(page + 1) } />
+      </ButtonGroup>
     </main>
   )
 }

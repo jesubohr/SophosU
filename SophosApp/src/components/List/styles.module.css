@@ -29,3 +29,16 @@
   width: 100%;
   justify-content: space-evenly;
 }
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.pagination-container .pages {
+  display: flex;
+  gap: 0.3rem;
+}
