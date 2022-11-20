@@ -16,13 +16,12 @@ export const Login = () => {
   const [emailIntent, setEmailIntent] = useState<Intent>("none")
   const [passwordIntent, setPasswordIntent] = useState<Intent>("none")
 
-  function handleEmailInput (event: React.FormEvent<HTMLInputElement>) {
+  function handleEmailInput(event: React.FormEvent<HTMLInputElement>) {
     const email = event.currentTarget.value
     if (isValidEmail(email)) {
       setEmailHelperText("Valid Email")
       setEmailIntent("success")
-    }
-    else {
+    } else {
       if (email.length === 0) {
         setEmailHelperText("")
         setEmailIntent("none")
@@ -32,7 +31,7 @@ export const Login = () => {
       setEmailIntent("danger")
     }
   }
-  function handlePasswordInput (event: React.FormEvent<HTMLInputElement>) {
+  function handlePasswordInput(event: React.FormEvent<HTMLInputElement>) {
     const password = event.currentTarget.value
     if (password.length > 0) {
       setPasswordHelperText("")
@@ -41,12 +40,12 @@ export const Login = () => {
     }
   }
 
-  function handleSubmit (event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const form = event.currentTarget
     const formData = new FormData(form)
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
+    const email = formData.get("email") as string
+    const password = formData.get("password") as string
 
     if (email.length === 0) {
       setEmailHelperText("Email is required")
@@ -68,7 +67,9 @@ export const Login = () => {
       setPasswordHelperText("")
       setEmailIntent("none")
       setPasswordIntent("none")
-      setTimeout(() => { form.reset() }, 0)
+      setTimeout(() => {
+        form.reset()
+      }, 0)
     }
   }
 
@@ -78,17 +79,15 @@ export const Login = () => {
 
   return (
     <LoginView
-      emailHelperText={ emailHelperText }
-      emailIntent={ emailIntent }
-      emailInputRef={ emailInputRef }
-      handleEmailInput={ handleEmailInput }
-
-      passwordHelperText={ passwordHelperText }
-      passwordIntent={ passwordIntent }
-      passwordInputRef={ passwordInputRef }
-      handlePasswordInput={ handlePasswordInput }
-
-      handleSubmit={ handleSubmit }
+      emailHelperText={emailHelperText}
+      emailIntent={emailIntent}
+      emailInputRef={emailInputRef}
+      handleEmailInput={handleEmailInput}
+      passwordHelperText={passwordHelperText}
+      passwordIntent={passwordIntent}
+      passwordInputRef={passwordInputRef}
+      handlePasswordInput={handlePasswordInput}
+      handleSubmit={handleSubmit}
     />
   )
 }

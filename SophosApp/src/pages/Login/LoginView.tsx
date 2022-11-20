@@ -3,7 +3,6 @@ import { useState } from "react"
 import { FormGroup, InputGroup, Button } from "@blueprintjs/core"
 import styles from "./styles.module.css"
 
-
 export interface ILoginViewProps {
   emailHelperText: string
   emailIntent: Intent
@@ -18,29 +17,35 @@ export interface ILoginViewProps {
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void
 }
 export const LoginView = (props: ILoginViewProps) => {
-  const { emailHelperText, emailIntent, emailInputRef, handleEmailInput } = props
-  const { passwordHelperText, passwordIntent, passwordInputRef, handlePasswordInput } = props
+  const { emailHelperText, emailIntent, emailInputRef, handleEmailInput } =
+    props
+  const {
+    passwordHelperText,
+    passwordIntent,
+    passwordInputRef,
+    handlePasswordInput
+  } = props
   const { handleSubmit } = props
 
   return (
-    <main className={ styles.container }>
-      <h1 className={ "bp4-heading" + styles.title }>Login</h1>
-      <form onSubmit={ handleSubmit } className={ styles.form }>
+    <main className={styles.container}>
+      <h1 className={"bp4-heading" + styles.title}>Login</h1>
+      <form onSubmit={handleSubmit} className={styles.form}>
         <FormGroup
           label="Email"
           labelFor="email-input"
           labelInfo="(required)"
-          subLabel={ emailHelperText }
-          intent={ emailIntent }
+          subLabel={emailHelperText}
+          intent={emailIntent}
         >
           <InputGroup
-            inputRef={ emailInputRef }
+            inputRef={emailInputRef}
             id="email-input"
             name="email"
-            large={ true }
-            intent={ emailIntent }
+            large={true}
+            intent={emailIntent}
             placeholder="user@email.com"
-            onInput={ handleEmailInput }
+            onInput={handleEmailInput}
             required
           />
         </FormGroup>
@@ -48,26 +53,26 @@ export const LoginView = (props: ILoginViewProps) => {
           label="Password"
           labelFor="password-input"
           labelInfo="(required)"
-          subLabel={ passwordHelperText }
-          intent={ passwordIntent }
+          subLabel={passwordHelperText}
+          intent={passwordIntent}
         >
           <InputGroup
-            inputRef={ passwordInputRef }
+            inputRef={passwordInputRef}
             id="password-input"
             name="password"
             type="password"
-            large={ true }
-            intent={ passwordIntent }
+            large={true}
+            intent={passwordIntent}
             placeholder="$4|uT0n_M@ndo"
-            onInput={ handlePasswordInput }
-            rightElement={ (<ViewPassword inputRef={ passwordInputRef } />) }
+            onInput={handlePasswordInput}
+            rightElement={<ViewPassword inputRef={passwordInputRef} />}
             required
           />
         </FormGroup>
         <Button
           type="submit"
-          fill={ true }
-          large={ true }
+          fill={true}
+          large={true}
           intent="primary"
           text="Login"
         />
@@ -84,13 +89,14 @@ const ViewPassword = ({ inputRef }: ViewPasswordProps) => {
 
   return (
     <Button
-      icon={ isOpen ? "eye-off" : "eye-open" }
+      icon={isOpen ? "eye-off" : "eye-open"}
       minimal
-      onClick={ () => {
+      onClick={() => {
         const passwordInput = inputRef.current as HTMLInputElement
-        passwordInput.type = passwordInput.type === "password" ? "text" : "password"
+        passwordInput.type =
+          passwordInput.type === "password" ? "text" : "password"
         setIsOpen(!isOpen)
-      } }
+      }}
     />
   )
 }

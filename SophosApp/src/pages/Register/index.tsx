@@ -12,19 +12,19 @@ export const Register = () => {
 
   const [emailHelperText, setEmailHelperText] = useState<string>("")
   const [passwordHelperText, setPasswordHelperText] = useState<string>("")
-  const [isSuccessPassword, setIsSuccessPassword] = useState<boolean|null>(null)
+  const [isSuccessPassword, setIsSuccessPassword] = useState<boolean | null>(
+    null
+  )
 
   const [emailIntent, setEmailIntent] = useState<Intent>("none")
   const [passwordIntent, setPasswordIntent] = useState<Intent>("none")
 
-
-  function handleEmailInput (event: React.FormEvent<HTMLInputElement>) {
+  function handleEmailInput(event: React.FormEvent<HTMLInputElement>) {
     const email = event.currentTarget.value
     if (isValidEmail(email)) {
       setEmailHelperText("Valid Email")
       setEmailIntent("success")
-    }
-    else {
+    } else {
       if (email.length === 0) {
         setEmailHelperText("")
         setEmailIntent("none")
@@ -34,19 +34,19 @@ export const Register = () => {
       setEmailIntent("danger")
     }
   }
-  function handlePasswordInput (event: React.FormEvent<HTMLInputElement>) {
+  function handlePasswordInput(event: React.FormEvent<HTMLInputElement>) {
     const password = event.currentTarget.value
     if (password.length === 0) return setIsSuccessPassword(null)
 
     if (isSecurePassword(password)) setIsSuccessPassword(true)
     else setIsSuccessPassword(false)
   }
-  function handleSubmit (event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const form = event.currentTarget
     const formData = new FormData(form)
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
+    const email = formData.get("email") as string
+    const password = formData.get("password") as string
 
     if (email.length === 0) {
       setEmailHelperText("Email is required")
@@ -68,7 +68,9 @@ export const Register = () => {
       setPasswordHelperText("")
       setEmailIntent("none")
       setPasswordIntent("none")
-      setTimeout(() => { form.reset() }, 0)
+      setTimeout(() => {
+        form.reset()
+      }, 0)
     }
   }
 
@@ -93,18 +95,16 @@ export const Register = () => {
 
   return (
     <RegisterView
-      emailHelperText={ emailHelperText }
-      emailIntent={ emailIntent }
-      emailInputRef={ emailInputRef }
-      handleEmailInput={ handleEmailInput }
-
-      passwordHelperText={ passwordHelperText }
-      passwordIntent={ passwordIntent }
-      passwordInputRef={ passwordInputRef }
-      handlePasswordInput={ handlePasswordInput }
-
-      handleSubmit={ handleSubmit }
-      setIsSuccessPassword={ setIsSuccessPassword }
+      emailHelperText={emailHelperText}
+      emailIntent={emailIntent}
+      emailInputRef={emailInputRef}
+      handleEmailInput={handleEmailInput}
+      passwordHelperText={passwordHelperText}
+      passwordIntent={passwordIntent}
+      passwordInputRef={passwordInputRef}
+      handlePasswordInput={handlePasswordInput}
+      handleSubmit={handleSubmit}
+      setIsSuccessPassword={setIsSuccessPassword}
     />
   )
 }

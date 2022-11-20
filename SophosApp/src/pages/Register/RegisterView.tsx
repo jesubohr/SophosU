@@ -19,66 +19,76 @@ export interface IRegisterViewProps {
   setIsSuccessPassword: React.Dispatch<React.SetStateAction<boolean | null>>
 }
 export const RegisterView = (props: IRegisterViewProps) => {
-  const { emailHelperText, emailIntent, emailInputRef, handleEmailInput } = props
-  const { passwordHelperText, passwordIntent, passwordInputRef, handlePasswordInput } = props
+  const { emailHelperText, emailIntent, emailInputRef, handleEmailInput } =
+    props
+  const {
+    passwordHelperText,
+    passwordIntent,
+    passwordInputRef,
+    handlePasswordInput
+  } = props
   const { handleSubmit, setIsSuccessPassword } = props
 
   return (
-    <main className={ styles.container }>
-      <h1 className={ "bp4-heading" + styles.title }>Register</h1>
-      <form onSubmit={ handleSubmit } className={ styles.form }>
+    <main className={styles.container}>
+      <h1 className={"bp4-heading" + styles.title}>Register</h1>
+      <form onSubmit={handleSubmit} className={styles.form}>
         <FormGroup
           label="Email"
           labelFor="email-input"
           labelInfo="(required)"
-          subLabel={ emailHelperText }
-          intent={ emailIntent }
+          subLabel={emailHelperText}
+          intent={emailIntent}
         >
           <InputGroup
-            inputRef={ emailInputRef }
+            inputRef={emailInputRef}
             id="email-input"
             name="email"
-            large={ true }
-            intent={ emailIntent }
+            large={true}
+            intent={emailIntent}
             placeholder="user@email.com"
-            onInput={ handleEmailInput }
+            onInput={handleEmailInput}
             required
           />
         </FormGroup>
         <FormGroup
-          helperText={ (
-            <p className={ styles.helperText }>
-              Password must be 12 characters long and contain uppercase letters, lowercase letters, numbers, and symbols.
+          helperText={
+            <p className={styles.helperText}>
+              Password must be 12 characters long and contain uppercase letters,
+              lowercase letters, numbers, and symbols.
             </p>
-          ) }
+          }
           label="Password"
           labelFor="password-input"
           labelInfo="(required)"
-          subLabel={ passwordHelperText }
-          intent={ passwordIntent }
+          subLabel={passwordHelperText}
+          intent={passwordIntent}
         >
           <InputGroup
-            inputRef={ passwordInputRef }
+            inputRef={passwordInputRef}
             id="password-input"
             name="password"
             type="password"
-            large={ true }
-            intent={ passwordIntent }
+            large={true}
+            intent={passwordIntent}
             placeholder="$4|uT0n_M@ndo"
-            onInput={ handlePasswordInput }
-            rightElement={ (
+            onInput={handlePasswordInput}
+            rightElement={
               <>
-                <CreatePassword inputRef={ passwordInputRef } successPassword={ setIsSuccessPassword } />
-                <ViewPassword inputRef={ passwordInputRef } />
+                <CreatePassword
+                  inputRef={passwordInputRef}
+                  successPassword={setIsSuccessPassword}
+                />
+                <ViewPassword inputRef={passwordInputRef} />
               </>
-            ) }
+            }
             required
           />
         </FormGroup>
         <Button
           type="submit"
-          fill={ true }
-          large={ true }
+          fill={true}
+          large={true}
           intent="primary"
           text="Register"
         />
@@ -91,17 +101,20 @@ interface GeneratePasswordProps {
   inputRef: React.RefObject<HTMLInputElement>
   successPassword: React.Dispatch<React.SetStateAction<boolean | null>>
 }
-const CreatePassword = ({ inputRef, successPassword }: GeneratePasswordProps) => {
+const CreatePassword = ({
+  inputRef,
+  successPassword
+}: GeneratePasswordProps) => {
   return (
     <Button
       icon="refresh"
       minimal
-      onClick={ () => {
+      onClick={() => {
         const password = generatePassword()
         const passwordInput = inputRef.current as HTMLInputElement
         passwordInput.value = password
         successPassword(isSecurePassword(password))
-      } }
+      }}
     />
   )
 }
@@ -114,13 +127,14 @@ const ViewPassword = ({ inputRef }: ViewPasswordProps) => {
 
   return (
     <Button
-      icon={ isOpen ? "eye-off" : "eye-open" }
+      icon={isOpen ? "eye-off" : "eye-open"}
       minimal
-      onClick={ () => {
+      onClick={() => {
         const passwordInput = inputRef.current as HTMLInputElement
-        passwordInput.type = passwordInput.type === "password" ? "text" : "password"
+        passwordInput.type =
+          passwordInput.type === "password" ? "text" : "password"
         setIsOpen(!isOpen)
-      } }
+      }}
     />
   )
 }

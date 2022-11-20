@@ -9,13 +9,15 @@ export const ProtectedRoute = ({ children }: IProtectedRouteProps) => {
   const { pathname } = useLocation()
 
   if (!token && !refreshToken) {
-    const previousPath = pathname.split('/').pop()
-    const newPathname = previousPath ? `/login?redirect=${previousPath}` : '/login'
-    return <Navigate to={ newPathname } replace />
+    const previousPath = pathname.split("/").pop()
+    const newPathname = previousPath
+      ? `/login?redirect=${previousPath}`
+      : "/login"
+    return <Navigate to={newPathname} replace />
   } else if (!token && refreshToken) {
-    (async () => {
+    ;(async () => {
       await onRefresh()
-      return <Navigate to={ pathname } replace />
+      return <Navigate to={pathname} replace />
     })()
   }
   return children
