@@ -29,35 +29,41 @@ export const ListRecords = (props: IListRecordsProps) => {
   const navigate = useNavigate()
 
   // Rendering Methods
-  function cellRenderer (rowIndex: number, columnIndex: number) {
+  function cellRenderer(rowIndex: number, columnIndex: number) {
     const record = records[rowIndex]
     const column = formatHeader(headers[columnIndex])
     const value = record[column]
-    const cellClassNumber = (typeof value === 'number') ? styles["num-cell"] : ""
+    const cellClassNumber = typeof value === "number" ? styles["num-cell"] : ""
 
     if (columnIndex === headers.length - 1) {
-      const actions = { view: viewRecord, edit: editRecord, delete: deleteRecord }
-      return (
-        <ActionButtons actions={ actions } index={ rowIndex } />
-      )
+      const actions = {
+        view: viewRecord,
+        edit: editRecord,
+        delete: deleteRecord
+      }
+      return <ActionButtons actions={actions} index={rowIndex} />
     }
-    return <div className={ cellClassNumber }>{ value }</div>
+    return <div className={cellClassNumber}>{value}</div>
   }
-  function headerRenderer (columnIndex: number) {
+  function headerRenderer(columnIndex: number) {
     return (
       <>
-        { headers[columnIndex] }
-        { columnIndex < headers.length - 1 && (
-          <SortingMenu columnIndex={ columnIndex } sortColumn={ sortColumn } />
-        ) }
+        {headers[columnIndex]}
+        {columnIndex < headers.length - 1 && (
+          <SortingMenu columnIndex={columnIndex} sortColumn={sortColumn} />
+        )}
       </>
     )
   }
 
   // Data Methods
   type Record = keyof typeof records[0]
-  const formatHeader = (header: string) => header.toLowerCase().replace(" ", "_") as Record
-  function sortColumn (columnIndex: number, comparator: (a: any, b: any) => number) {
+  const formatHeader = (header: string) =>
+    header.toLowerCase().replace(" ", "_") as Record
+  function sortColumn(
+    columnIndex: number,
+    comparator: (a: any, b: any) => number
+  ) {
     if (columnIndex === undefined) return
     const sortedRecords = [...records].sort((a, b) => {
       const column = formatHeader(headers[columnIndex])
@@ -67,20 +73,24 @@ export const ListRecords = (props: IListRecordsProps) => {
     })
     setRecords(sortedRecords)
   }
-  function handleSearch (event: React.FormEvent<HTMLInputElement>) {
+  function handleSearch(event: React.FormEvent<HTMLInputElement>) {
     const search = event.currentTarget.value.toLowerCase()
-    const filteredRecords = searchKeys.map(key => {
-      return data.filter(record => (
-        fuzzySearch(search, record[key].toLowerCase())
-      ))
-    }).flat()
+    const filteredRecords = searchKeys
+      .map((key) => {
+        return data.filter((record) =>
+          fuzzySearch(search, record[key].toLowerCase())
+        )
+      })
+      .flat()
     setRecords(search ? filteredRecords : data)
   }
 
   // Routing Methods
   const createRecord = () => navigate(`/${route}/add`)
-  const viewRecord = (index: number) => navigate(`/${route}/${records[index].code}`)
-  const editRecord = (index: number) => navigate(`/${route}/edit/${records[index].code}`)
+  const viewRecord = (index: number) =>
+    navigate(`/${route}/${records[index].code}`)
+  const editRecord = (index: number) =>
+    navigate(`/${route}/edit/${records[index].code}`)
   const deleteRecord = (index: number) => onDelete(records[index].code)
 
   useEffect(() => {
@@ -89,79 +99,78 @@ export const ListRecords = (props: IListRecordsProps) => {
 
   return (
     <main>
-      <div className={ styles["header-container"] }>
-        <h1 className={ styles.title }>{ title }</h1>
-        <div className={ styles["header-actions"] }>
+      <div className={styles["header-container"]}>
+        <h1 className={styles.title}>{title}</h1>
+        <div className={styles["header-actions"]}>
           <InputGroup
             type="search"
             large
             leftIcon="search"
             placeholder="Search..."
-            onInput={ handleSearch }
+            onInput={handleSearch}
           />
           <Button
             large
             icon="add"
-            text={ `Add ${title.slice(0, -1)}` }
-            onClick={ createRecord }
+            text={`Add ${title.slice(0, -1)}`}
+            onClick={createRecord}
           />
         </div>
       </div>
-      <div className={ styles.table }>
+      <div className={styles.table}>
         <Table
-          numRows={ records.length }
-          baseRowIndex={ (page - 1) * maxItems }
-          columnHeaders={ headers }
-          cellRenderer={ cellRenderer }
-          headerRenderer={ headerRenderer }
+          numRows={records.length}
+          baseRowIndex={(page - 1) * maxItems}
+          columnHeaders={headers}
+          cellRenderer={cellRenderer}
+          headerRenderer={headerRenderer}
         />
       </div>
-      <ButtonGroup className={ styles["pagination-container"] }>
-        <Button icon="chevron-left" onClick={ () => onPageChange(page - 1) }/>
-        <div className={ styles["pages"] }>
-          {
-            Array.from({ length: maxPage }, (_, i) => i + 1).map(num => (
-              <Button
-                key={ num }
-                active={ num === page }
-                onClick={ () => onPageChange(num) }
-              >{ num }</Button>
-            ))
-          }
+      <ButtonGroup className={styles["pagination-container"]}>
+        <Button icon="chevron-left" onClick={() => onPageChange(page - 1)} />
+        <div className={styles["pages"]}>
+          {Array.from({ length: maxPage }, (_, i) => i + 1).map((num) => (
+            <Button
+              key={num}
+              active={num === page}
+              onClick={() => onPageChange(num)}
+            >
+              {num}
+            </Button>
+          ))}
         </div>
-        <Button icon="chevron-right" onClick={ () => onPageChange(page + 1) } />
+        <Button icon="chevron-right" onClick={() => onPageChange(page + 1)} />
       </ButtonGroup>
     </main>
   )
 }
 
-
 // Sub-components
 interface ISortingMenuProps {
   columnIndex: number
-  sortColumn: (columnIndex: number, comparator: (a: any, b: any) => number) => void
+  sortColumn: (
+    columnIndex: number,
+    comparator: (a: any, b: any) => number
+  ) => void
 }
 const SortingMenu = ({ columnIndex, sortColumn }: ISortingMenuProps) => {
   const sortAsc = () => sortColumn(columnIndex, (a, b) => compare(a, b))
   const sortDesc = () => sortColumn(columnIndex, (a, b) => compare(b, a))
 
   const compare = (a: any, b: any) => {
-    if (typeof a === 'number') return Number(a) - Number(b)
-    if (typeof a === 'object') return Number(a) - Number(b)
+    if (typeof a === "number") return Number(a) - Number(b)
+    if (typeof a === "object") return Number(a) - Number(b)
     return String(a).localeCompare(String(b))
   }
 
   const PopMenu = () => (
     <Menu>
-      <MenuItem icon="sort-asc" onClick={ sortAsc } text="Sort Ascendent" />
-      <MenuItem icon="sort-desc" onClick={ sortDesc } text="Sort Descendent" />
+      <MenuItem icon="sort-asc" onClick={sortAsc} text="Sort Ascendent" />
+      <MenuItem icon="sort-desc" onClick={sortDesc} text="Sort Descendent" />
     </Menu>
   )
   return (
-    <Popover2
-      minimal
-      position={ Position.BOTTOM_RIGHT }
-      content={ <PopMenu /> }>
+    <Popover2 minimal position={Position.BOTTOM_RIGHT} content={<PopMenu />}>
       <Button icon="chevron-down" minimal />
     </Popover2>
   )
@@ -173,10 +182,14 @@ interface IActionButtonsProps {
 }
 const ActionButtons = ({ index, actions }: IActionButtonsProps) => {
   return (
-    <ButtonGroup minimal className={ styles.actions }>
-      <Button title="View" icon="user" onClick={ () => actions["view"](index) } />
-      <Button title="Edit" icon="edit" onClick={ () => actions["edit"](index) } />
-      <Button title="Delete" icon="trash" onClick={ () => actions["delete"](index) } />
+    <ButtonGroup minimal className={styles.actions}>
+      <Button title="View" icon="user" onClick={() => actions["view"](index)} />
+      <Button title="Edit" icon="edit" onClick={() => actions["edit"](index)} />
+      <Button
+        title="Delete"
+        icon="trash"
+        onClick={() => actions["delete"](index)}
+      />
     </ButtonGroup>
   )
 }

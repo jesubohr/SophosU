@@ -57,6 +57,7 @@ input[type="date"]::before {
   width: 100%;
   opacity: 0.75;
 }
+
 input[type="date"]:focus::before,
 input[type="date"]:valid::before {
   display: none

@@ -13,26 +13,26 @@ export const NavMenu = ({ onLogout }: INavMenuProps) => {
         href="/students"
         icon="people"
         text="Students"
-        active={ pathname === "/students" }
+        active={pathname === "/students"}
       />
       <MenuItem
         href="/teachers"
         icon="learning"
         text="Teachers"
-        active={ pathname === "/teachers" }
+        active={pathname === "/teachers"}
       />
       <MenuItem
         href="/courses"
         icon="book"
         text="Courses"
-        active={ pathname === "/courses" }
+        active={pathname === "/courses"}
       />
       <MenuDivider />
       <MenuItem
         intent="danger"
         icon="log-out"
         text="Logout"
-        onClick={ onLogout }
+        onClick={onLogout}
       />
     </Menu>
   )
