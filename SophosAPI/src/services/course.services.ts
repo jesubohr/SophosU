@@ -10,6 +10,7 @@ export async function getAllCourses (page: number): Promise<GetCourses[]> {
     skip: (page - 1) * maxItemsPerPage,
     take: maxItemsPerPage,
     select: {
+      id: true,
       code: true,
       name: true,
       precourse: {
