@@ -1,171 +1,267 @@
 import type { UserProp } from '@/types/AuthContext'
-const API_URL = (route: string) => `http://localhost:3000/api/${route}`
+const API_URL = (route: string) => `http://localhost:5000/${route}` //https://sophosapi.up.railway.app
 
-function mockFetch<T> (url: string, options: any = {}) {
-  const wait = (ms: number) => new Promise(rs => setTimeout(rs, ms))
-  return Promise.resolve({
-    ok: true,
-    json: async (data: any) => {
-      await wait(1000)
-      return data as T
-    },
-  })
+// Types
+import type { Student, Teacher, Course, Faculty } from "@/types/RecordModel"
+type AuthResponse = {
+  token: string,
+  refreshToken: string,
+  error?: string
+}
+type PagedResponse<T> = {
+  data: T[],
+  page: number,
+  maxPage: number,
+  maxItems: number
+}
+
+// Cookies
+function getCookie (name: string) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop()?.split(';').shift()
 }
 
 // Authentication
-type AuthResponse = { token: string }
-export async function userLogin (user: UserProp) {
-  const res = await mockFetch<AuthResponse>(API_URL('login'), {
+export async function userLogin (user: UserProp): Promise<AuthResponse> {
+  const res = await fetch(API_URL('auth/login'), {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify(user)
   })
-  return res.json({ token: 'averysecuretoken' })
+  return res.json()
 }
-export async function userRegister (user: UserProp) {
-  const res = await mockFetch<AuthResponse>(API_URL('register'), {
+export async function userRegister (user: UserProp): Promise<AuthResponse> {
+  const res = await fetch(API_URL('auth/register'), {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify(user)
   })
-  return res.json({ token: 'averysecuretoken' })
+  return res.json()
 }
-export async function userLogout () {
-  const res = await mockFetch(API_URL('logout'), {
-    method: 'POST'
+export async function userLogout (refreshToken: string) {
+  return await fetch(API_URL('auth/logout'), {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ refreshToken })
   })
-  return res.json({})
 }
+export async function userRefreshToken (refreshToken: string) {
+  const res = await fetch(API_URL('auth/token'), {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ refreshToken })
+  })
+  return res.json()
+}
+
 
 // Records CRUD
-import { StudentsExample } from "@/examples/Students"
-import type { Student } from "@/types/RecordModel"
-export async function getStudents () {
-  const res = await mockFetch<Student[]>(API_URL('students'))
-  if (!res.ok) throw new Error('Error fetching students')
-  return res.json(StudentsExample)
+export async function getStudents (page = 1): Promise<PagedResponse<Student>> {
+  const res = await fetch(API_URL(`students?page=${page}`), {
+    headers: {
+      'Authorization': `Bearer ${getCookie('user_session')}`
+    }
+  })
+  const data = await res.json()
+  if (data.error) throw new Error(data.error)
+  return {
+    data: data.data,
+    page: data.page,
+    maxPage: data.maxPage,
+    maxItems: data.maxItems
+  }
 }
-export async function getStudent (code: string) {
-  const res = await mockFetch<Student>(API_URL(`students/${code}`))
-  if (!res.ok) throw new Error('Error fetching student')
-  return res.json(StudentsExample.find(s => s.code === code))
+export async function getStudent (code: string): Promise<Student> {
+  const res = await fetch(API_URL(`students/${code}`), {
+    headers: {
+      'Authorization': `Bearer ${getCookie('user_session')}`
+    }
+  })
+  const data = await res.json()
+  if (data.error) throw new Error(data.error)
+  return data.data
 }
-export async function createStudent (student: Student) {
-  console.log(student)
-  const res = await mockFetch<Student>(API_URL('students'), {
+export async function createStudent (student: Student): Promise<Student> {
+  const res = await fetch(API_URL('students'), {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${getCookie('user_session')}`
+    },
     body: JSON.stringify(student)
   })
-  if (!res.ok) throw new Error('Error creating student')
-
-  StudentsExample.push({ ...student, id: StudentsExample.length + 1 })
-  return res.json(student)
+  const data = await res.json()
+  if (data.error) throw new Error(data.error)
+  return data.data
 }
-export async function updateStudent (student: Student) {
-  const res = await mockFetch<Student>(API_URL(`students/${student.code}`), {
+export async function updateStudent (student: Student): Promise<Student> {
+  const res = await fetch(API_URL(`students/${student.code}`), {
     method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${getCookie('user_session')}`
+    },
     body: JSON.stringify(student)
   })
-  if (!res.ok) throw new Error('Error updating student')
-
-  const index = StudentsExample.findIndex(s => s.code === student.code)
-  StudentsExample[index] = { ...student, id: StudentsExample[index].id }
-  return res.json(student)
+  const data = await res.json()
+  if (data.error) throw new Error(data.error)
+  return data.data
 }
-export async function deleteStudent (code: string) {
-  const res = await mockFetch<Student>(API_URL(`students/${code}`), {
-    method: 'DELETE'
+export async function deleteStudent (code: string): Promise<Student> {
+  const res = await fetch(API_URL(`students/${code}`), {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${getCookie('user_session')}`
+    },
   })
-  if (!res.ok) throw new Error('Error deleting student')
-
-  StudentsExample.splice(StudentsExample.findIndex(s => s.code === code), 1)
-  return res.json({})
+  const data = await res.json()
+  if (data.error) throw new Error(data.error)
+  return data.data
 }
 
-import { TeachersExample } from "@/examples/Teachers"
-import type { Teacher } from "@/types/RecordModel"
-export async function getTeachers () {
-  const res = await mockFetch<Teacher[]>(API_URL('teachers'))
-  if (!res.ok) throw new Error('Error fetching teachers')
-  return res.json(TeachersExample)
+
+export async function getTeachers (page = 1): Promise<PagedResponse<Teacher>> {
+  const res = await fetch(API_URL(`teachers?page=${page}`), {
+    headers: {
+      'Authorization': `Bearer ${getCookie('user_session')}`
+    }
+  })
+  const data = await res.json()
+  if (data.error) throw new Error(data.error)
+  return {
+    data: data.data,
+    page: data.page,
+    maxPage: data.maxPage,
+    maxItems: data.maxItems
+  }
 }
-export async function getTeacher (code: string) {
-  const res = await mockFetch<Teacher>(API_URL(`teachers/${code}`))
-  if (!res.ok) throw new Error('Error fetching teacher')
-  return res.json(TeachersExample.find(s => s.code === code))
+export async function getTeacher (code: string): Promise<Teacher> {
+  const res = await fetch(API_URL(`teachers/${code}`), {
+    headers: {
+      'Authorization': `Bearer ${getCookie('user_session')}`
+    }
+  })
+  const data = await res.json()
+  if (data.error) throw new Error(data.error)
+  return data.data
 }
-export async function createTeacher (teacher: Teacher) {
-  const res = await mockFetch<Teacher>(API_URL('teachers'), {
-    method: 'POST',
+export async function createTeacher (teacher: Teacher): Promise<Teacher> {
+  const res = await fetch(API_URL("teachers"), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${getCookie("user_session")}`
+    },
     body: JSON.stringify(teacher)
   })
-  if (!res.ok) throw new Error('Error creating teacher')
-
-  TeachersExample.push({ ...teacher, id: TeachersExample.length + 1 })
-  return res.json(teacher)
+  const data = await res.json()
+  if (data.error) throw new Error(data.error)
+  return data.data
 }
-export async function updateTeacher (teacher: Teacher) {
-  const res = await mockFetch<Teacher>(API_URL(`teachers/${teacher.code}`), {
+export async function updateTeacher (teacher: Teacher): Promise<Teacher> {
+  const res = await fetch(API_URL(`teachers/${teacher.code}`), {
     method: 'PUT',
+    headers: {
+      'Authorization': `Bearer ${getCookie('user_session')}`
+    },
     body: JSON.stringify(teacher)
   })
-  if (!res.ok) throw new Error('Error updating teacher')
-
-  const index = TeachersExample.findIndex(s => s.code === teacher.code)
-  TeachersExample[index] = { ...teacher, id: TeachersExample[index].id }
-  return res.json(teacher)
+  const data = await res.json()
+  if (data.error) throw new Error(data.error)
+  return data.data
 }
-export async function deleteTeacher (code: string) {
-  const res = await mockFetch<Teacher>(API_URL(`teachers/${code}`), {
-    method: 'DELETE'
+export async function deleteTeacher (code: string): Promise<Teacher> {
+  const res = await fetch(API_URL(`teachers/${code}`), {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${getCookie('user_session')}`
+    }
   })
-  if (!res.ok) throw new Error('Error deleting teacher')
-
-  TeachersExample.splice(TeachersExample.findIndex(s => s.code === code), 1)
-  return res.json({})
+  const data = await res.json()
+  if (data.error) throw new Error(data.error)
+  return data.data
 }
 
-import { CoursesExample } from "@/examples/Courses"
-import type { Course } from "@/types/RecordModel"
-export async function getCourses () {
-  const res = await mockFetch<Course[]>(API_URL('courses'))
-  if (!res.ok) throw new Error('Error fetching courses')
-  return res.json(CoursesExample)
+
+export async function getCourses (page = 1): Promise<PagedResponse<Course>> {
+  const res = await fetch(API_URL(`courses?page=${page}`), {
+    headers: {
+      'Authorization': `Bearer ${getCookie('user_session')}`
+    }
+  })
+  const data = await res.json()
+  if (data.error) throw new Error(data.error)
+  return {
+    data: data.data,
+    page: data.page,
+    maxPage: data.maxPage,
+    maxItems: data.maxItems
+  }
 }
-export async function getCourse (code: string) {
-  const res = await mockFetch<Course>(API_URL(`courses/${code}`))
-  if (!res.ok) throw new Error('Error fetching course')
-  return res.json(CoursesExample.find(s => s.code === code))
+export async function getCourse (code: string): Promise<Course> {
+  const res = await fetch(API_URL(`courses/${code}`), {
+    headers: {
+      'Authorization': `Bearer ${getCookie('user_session')}`
+    }
+  })
+  const data = await res.json()
+  if (data.error) throw new Error(data.error)
+  return data.data
 }
-export async function createCourse (course: Course) {
-  const res = await mockFetch<Course>(API_URL('courses'), {
-    method: 'POST',
+export async function createCourse (course: Course): Promise<Course> {
+  const res = await fetch(API_URL("courses"), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${getCookie("user_session")}`
+    },
     body: JSON.stringify(course)
   })
-  if (!res.ok) throw new Error('Error creating course')
-
-  CoursesExample.push({
-    ...course,
-    id: CoursesExample.length + 1,
-    available_quota: course.max_students
-  })
-  return res.json(course)
+  const data = await res.json()
+  if (data.error) throw new Error(data.error)
+  return data.data
 }
-export async function updateCourse (course: Course) {
-  const res = await mockFetch<Course>(API_URL(`courses/${course.code}`), {
+export async function updateCourse (course: Course): Promise<Course> {
+  const res = await fetch(API_URL(`courses/${course.code}`), {
     method: 'PUT',
+    headers: {
+      'Authorization': `Bearer ${getCookie('user_session')}`
+    },
     body: JSON.stringify(course)
   })
-  if (!res.ok) throw new Error('Error updating course')
-
-  const index = CoursesExample.findIndex(s => s.code === course.code)
-  CoursesExample[index] = { ...course, id: CoursesExample[index].id, available_quota: CoursesExample[index].available_quota }
-  return res.json(course)
+  const data = await res.json()
+  if (data.error) throw new Error(data.error)
+  return data.data
 }
-export async function deleteCourse (code: string) {
-  const res = await mockFetch<Course>(API_URL(`courses/${code}`), {
-    method: 'DELETE'
+export async function deleteCourse (code: string): Promise<Course> {
+  const res = await fetch(API_URL(`courses/${code}`), {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${getCookie('user_session')}`
+    }
   })
-  if (!res.ok) throw new Error('Error deleting course')
+  const data = await res.json()
+  if (data.error) throw new Error(data.error)
+  return data.data
+}
 
-  CoursesExample.splice(CoursesExample.findIndex(s => s.code === code), 1)
-  return res.json({})
+export async function getFaculties(): Promise<Faculty[]> {
+  const res = await fetch(API_URL('faculties'), {
+    headers: {
+      'Authorization': `Bearer ${getCookie('user_session')}`
+    }
+  })
+  const data = await res.json()
+  if (data.error) throw new Error(data.error)
+  return data.data
 }
