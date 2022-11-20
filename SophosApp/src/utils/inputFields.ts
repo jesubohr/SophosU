@@ -1,4 +1,4 @@
-import type { InputField } from "@/types/RecordComponents"
+import type { InputField, Option } from "@/types/RecordComponents"
 
 export const STUDENT_INPUTS: InputField[] = [
   {
@@ -6,21 +6,18 @@ export const STUDENT_INPUTS: InputField[] = [
     label: "Code",
     type: "text",
     maxLength: 9,
-    required: true,
     placeholder: "123456789"
   },
   {
     name: "fullname",
     label: "Fullname",
     type: "text",
-    required: true,
     placeholder: "John Doe"
   },
   {
     name: "birthdate",
     label: "Birthdate",
     type: "date",
-    required: true,
     placeholder: "20/03/2000"
   },
   {
@@ -28,22 +25,25 @@ export const STUDENT_INPUTS: InputField[] = [
     label: "Cellphone",
     type: "text",
     maxLength: 10,
-    required: true,
     placeholder: "3001234567"
   },
   {
     name: "email",
     label: "Email",
     type: "email",
-    required: true,
     placeholder: "johndoe@sophosu.com"
   },
   {
-    name: "faculty",
+    name: "password",
+    label: "Password",
+    type: "password",
+    placeholder: "********"
+  },
+  {
+    name: "faculty_id",
     label: "Faculty",
-    type: "text",
-    required: true,
-    placeholder: "Ingeniería de Sistemas"
+    type: "select",
+    placeholder: "Ingeniería en Sophos"
   },
   {
     name: "enrolled_credits",
@@ -51,7 +51,6 @@ export const STUDENT_INPUTS: InputField[] = [
     type: "number",
     min: 0,
     max: 21,
-    required: true,
     placeholder: "15"
   },
   {
@@ -60,7 +59,6 @@ export const STUDENT_INPUTS: InputField[] = [
     type: "number",
     min: 1,
     max: 10,
-    required: true,
     placeholder: "5"
   }
 ]
@@ -70,49 +68,48 @@ export const TEACHER_INPUTS: InputField[] = [
     name: "code",
     label: "Code",
     type: "text",
-    required: true,
     placeholder: "123456789"
   },
   {
     name: "fullname",
     label: "Fullname",
     type: "text",
-    required: true,
     placeholder: "John Doe"
   },
   {
     name: "birthdate",
     label: "Birthdate",
     type: "date",
-    required: true,
     placeholder: "15/03/1970"
   },
   {
     name: "cellphone",
     label: "Cellphone",
     type: "text",
-    required: true,
     placeholder: "3001234567"
   },
   {
     name: "email",
     label: "Email",
     type: "email",
-    required: true,
     placeholder: "johndoe@sophosu.com"
   },
   {
-    name: "faculty",
+    name: "password",
+    label: "Password",
+    type: "password",
+    placeholder: "********"
+  },
+  {
+    name: "faculty_id",
     label: "Faculty",
-    type: "text",
-    required: true,
-    placeholder: "Ingeniería de Sistemas"
+    type: "select",
+    placeholder: "Ingeniería en Sophos"
   },
   {
     name: "academic_title",
     label: "Academic Title",
     type: "text",
-    required: true,
     placeholder: "Maestría"
   },
   {
@@ -121,40 +118,41 @@ export const TEACHER_INPUTS: InputField[] = [
     type: "number",
     min: 1,
     max: 60,
-    required: true,
     placeholder: "5"
   }
 ]
 
 export const COURSE_INPUTS: InputField[] = [
   {
+    name: "code",
+    label: "Code",
+    type: "text",
+    placeholder: "123456789"
+  },
+  {
     name: "name",
     label: "Name",
     type: "text",
-    required: true,
     placeholder: "Cálculo II"
   },
   {
-    name: "precourse",
+    name: "precourse_id",
     label: "Precourse",
-    type: "text",
-    required: true,
+    type: "select",
     placeholder: "Cálculo I"
   },
   {
-    name: "faculty",
+    name: "faculty_id",
     label: "Faculty",
-    type: "text",
-    required: true,
-    placeholder: "Matemáticas"
+    type: "select-2",
+    placeholder: "Ingeniería en Sophos"
   },
   {
     name: "required_credits",
-    label: "Enrolled Credits",
+    label: "Required Credits",
     type: "number",
     min: 3,
     max: 5,
-    required: true,
     placeholder: "4"
   },
   {
@@ -163,7 +161,6 @@ export const COURSE_INPUTS: InputField[] = [
     type: "number",
     min: 1,
     max: 40,
-    required: true,
     placeholder: "20"
   },
   {
@@ -172,7 +169,23 @@ export const COURSE_INPUTS: InputField[] = [
     type: "number",
     min: 10,
     max: 40,
-    required: true,
     placeholder: "30"
   }
 ]
+
+export const fitKey = <T>(name: string) => {
+  return name.slice(0, -3) as keyof T
+}
+
+export function formatDate (date: string) {
+  if (date.includes("-")) return date
+  const [day, month, year] = date.split("/")
+  return [year, month, day].join("-")
+}
+
+export function getOptions(item: any): Option {
+  return {
+    label: item.name,
+    value: item.id
+  }
+}

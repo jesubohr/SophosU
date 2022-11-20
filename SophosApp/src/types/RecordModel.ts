@@ -7,8 +7,8 @@ export type Student = {
   faculty: string
   enrolled_credits: number
   current_semester: number
-  enrolled_courses: { code: string, name: string }[]
-  taken_courses: { code: string, name: string }[]
+  enrolled_courses: { code: string; name: string }[]
+  taken_courses: { code: string; name: string }[]
 }
 
 export type Teacher = {
@@ -20,7 +20,7 @@ export type Teacher = {
   faculty: string
   academic_title: string
   years_experience: number
-  taught_courses: { code: string, name: string }[]
+  taught_courses: { code: string; name: string }[]
 }
 
 export type Course = {
@@ -31,6 +31,11 @@ export type Course = {
   required_credits: number
   enrolled_students: number
   max_students: number
-  assigned_teacher: { code: string, name: string }
-  current_students: { code: string, name: string }[]
+  assigned_teacher: { code: string; name: string }
+  current_students: { code: string; name: string }[]
+}
+
+export type Faculty = {
+  id: string
+  name: string
 }

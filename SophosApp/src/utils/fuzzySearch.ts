@@ -1,4 +1,4 @@
-export function fuzzySearch (needle: string, haystack: string) {
+export function fuzzySearch(needle: string, haystack: string) {
   let hlen = haystack.length
   let nlen = needle.length
 

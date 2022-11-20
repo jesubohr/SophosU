@@ -9,4 +9,4 @@ export interface IAuthContext {
 
 export type AuthProviderProps = { children: JSX.Element }
 
-export type UserProp = { email: string, password: string }
+export type UserProp = { email: string; password: string }
