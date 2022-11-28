@@ -127,3 +127,12 @@ export async function deleteCourse(req: Request, res: Response) {
     return res.status(404).json({ error: 'Teacher or Course not found' })
   }
 }
+
+export async function getTeachersCount(_: Request, res: Response) {
+  try {
+    const count = await TeacherServices.getTeachersCount()
+    return res.json({ status: 'OK', data: count })
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal server error' })
+  }
+}

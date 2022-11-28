@@ -4,7 +4,8 @@ import {
   getCourseByCode,
   createCourse,
   updateCourse,
-  deleteCourse
+  deleteCourse,
+  getCoursesCount
 } from "../controllers/course.controllers"
 const router = Router()
 
@@ -14,3 +15,4 @@ export default router
   .post('/', createCourse)
   .put('/:code', updateCourse)
   .delete('/:code', deleteCourse)
+  .get('/count', getCoursesCount)

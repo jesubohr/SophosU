@@ -3,7 +3,8 @@ import { exclude } from "../utils/services"
 import { DB } from "../database"
 
 export const maxItemsPerPage = 10
-export const getMaxPage = async () => Math.ceil(await DB.teacher.count() / maxItemsPerPage)
+export const getTeachersCount = async () => await DB.teacher.count()
+export const getMaxPage = async () => Math.ceil(await getTeachersCount() / maxItemsPerPage)
 
 export async function getAllTeachers (page: number): Promise<GetTeachers[]> {
   const teachers = await DB.teacher.findMany({

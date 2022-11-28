@@ -6,7 +6,8 @@ import {
   updateTeacher,
   deleteTeacher,
   addCourse,
-  deleteCourse
+  deleteCourse,
+  getTeachersCount
 } from "../controllers/teacher.controllers"
 const router = Router()
 
@@ -21,3 +22,4 @@ export default router
     if (code === 'courses') return deleteCourse(req, res)
     return deleteTeacher(req, res)
   })
+  .get('/count', getTeachersCount)

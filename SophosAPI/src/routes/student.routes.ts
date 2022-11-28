@@ -6,7 +6,8 @@ import {
   updateStudent,
   deleteStudent,
   addCourse,
-  deleteCourse
+  deleteCourse,
+  getStudentsCount
 } from "../controllers/student.controllers"
 const router = Router()
 
@@ -22,3 +23,4 @@ export default router
     if (code === 'enrolled' || code === 'taken') return deleteCourse(req, res)
     return deleteStudent(req, res)
   })
+  .get('/count', getStudentsCount)

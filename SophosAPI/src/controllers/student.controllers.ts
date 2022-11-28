@@ -132,3 +132,12 @@ export async function deleteCourse (req: Request, res: Response) {
     return res.status(404).json({ error: 'Student or Course not found' })
   }
 }
+
+export async function getStudentsCount(_: Request, res: Response) {
+  try {
+    const count = await StudentServices.getStudentsCount()
+    return res.json({ status: 'OK', data: count })
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal server error' })
+  }
+}
