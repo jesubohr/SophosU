@@ -1,7 +1,7 @@
 import type { Student } from "@/types/RecordModel"
 import { useParams } from "react-router-dom"
 import { useQuery } from "@tanstack/react-query"
-import { getStudent } from "@/api/auth"
+import { getStudent } from "@/api/students"
 
 import { ErrorView } from "@/components/Error"
 import { ViewRecord } from "@/components/View"

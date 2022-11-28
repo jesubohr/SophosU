@@ -1,7 +1,8 @@
 import type { Course } from "@/types/RecordModel"
 import { useNavigate } from "react-router-dom"
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query"
-import { createCourse, getCourses, getFaculties } from "@/api/auth"
+import { getFaculties } from "@/api/faculties"
+import { createCourse, getCourses } from "@/api/courses"
 import { COURSE_INPUTS, getOptions } from "@/utils/inputFields"
 
 import { ErrorView } from "@/components/Error"

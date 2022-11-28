@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom"
 import { useQuery } from "@tanstack/react-query"
-import { getCourse } from "@/api/auth"
+import { getCourse } from "@/api/courses"
 
 import { ViewRecord } from "@/components/View"
 import { LoadingView } from "@/components/Loading"

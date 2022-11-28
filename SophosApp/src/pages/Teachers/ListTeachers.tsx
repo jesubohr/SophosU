@@ -1,7 +1,7 @@
 import type { Teacher } from "@/types/RecordModel"
 import { useState } from "react"
 import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query"
-import { getTeachers, deleteTeacher } from "@/api/auth"
+import { getTeachers, deleteTeacher } from "@/api/teachers"
 
 import { ErrorView } from "@/components/Error"
 import { ListRecords } from "@/components/List"

@@ -2,7 +2,8 @@ import type { Student } from "@/types/RecordModel"
 import type { InputField } from "@/types/RecordComponents"
 import { useParams, useNavigate } from "react-router-dom"
 import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query"
-import { getStudent, updateStudent, getFaculties } from "@/api/auth"
+import { getFaculties } from "@/api/faculties"
+import { getStudent, updateStudent } from "@/api/students"
 import {
   STUDENT_INPUTS,
   fitKey,

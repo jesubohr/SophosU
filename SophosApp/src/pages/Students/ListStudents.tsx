@@ -1,7 +1,7 @@
 import type { Student } from "@/types/RecordModel"
 import { useState } from "react"
 import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query"
-import { getStudents, deleteStudent } from "@/api/auth"
+import { getStudents, deleteStudent } from "@/api/students"
 import { ListRecords } from "@/components/List"
 import { LoadingView } from "@/components/Loading"
 import { ErrorView } from "@/components/Error"
