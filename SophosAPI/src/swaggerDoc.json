@@ -1,0 +1,347 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Sophos University - OpenAPI 3.0",
+    "description": "API for Sophos University to manage courses, students and teachers.",
+    "contact": {
+      "email": "help@sophos.co"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.1.1"
+  },
+  "servers": [
+    {
+      "url": "https://sophosapi.vercel.app/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "students",
+      "description": "Operations about students"
+    },
+    {
+      "name": "teachers",
+      "description": "Operations about teachers"
+    },
+    {
+      "name": "courses",
+      "description": "Operations about courses"
+    }
+  ],
+  "paths": {
+    "/students": {
+      "get": {
+        "tags": [
+          "students"
+        ],
+        "summary": "Retreive all students",
+        "description": "Retrieve all students in DB",
+        "operationId": "getAllStudents",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Student"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "account_auth": [
+              "write:account",
+              "read:account"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "students"
+        ],
+        "summary": "Create new student",
+        "description": "Create a new student in DB",
+        "operationId": "createStudent",
+        "requestBody": {
+          "description": "Request student information",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Student"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Student"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing student data"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/students/{code}": {
+      "get": {
+        "tags": [
+          "students"
+        ],
+        "summary": "Get user by code",
+        "description": "Find user by its code",
+        "operationId": "getStudentByCode",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "description": "Code of student to find",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Student"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing student code"
+          },
+          "404": {
+            "description": "Student not found"
+          }
+        }
+      }
+    },
+    "/teachers": {
+      "get": {
+        "tags": [
+          "teachers"
+        ],
+        "summary": "Retreive all students",
+        "description": "Retrieve all students in DB",
+        "operationId": "getAllTeachers",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Teacher"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/courses": {
+      "get": {
+        "tags": [
+          "courses"
+        ],
+        "summary": "Retreive all students",
+        "description": "Retrieve all students in DB",
+        "operationId": "getAllCourses",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Course"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Student": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "code": {
+            "type": "string",
+            "example": 200116787
+          },
+          "fullname": {
+            "type": "string",
+            "example": "Jonh Doe"
+          },
+          "birthdate": {
+            "type": "string",
+            "example": "12-01-1999"
+          },
+          "cellphone": {
+            "type": "string",
+            "example": 3004567890
+          },
+          "email": {
+            "type": "string",
+            "example": "john@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "4VeryS3cureP4ssw0rd"
+          },
+          "faculty_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "enrolled_credits": {
+            "type": "integer",
+            "format": "int64",
+            "example": 15
+          },
+          "current_semester": {
+            "type": "integer",
+            "format": "int64",
+            "example": 5
+          }
+        }
+      },
+      "Teacher": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "code": {
+            "type": "string",
+            "example": 300456789
+          },
+          "fullname": {
+            "type": "string",
+            "example": "James Smith"
+          },
+          "birthdate": {
+            "type": "string",
+            "example": "12-01-1980"
+          },
+          "cellphone": {
+            "type": "string",
+            "example": 3012345678
+          },
+          "email": {
+            "type": "string",
+            "example": "james@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "4VeryS3cureP4ssw0rd"
+          },
+          "faculty_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "academic_title": {
+            "type": "string",
+            "example": "Master"
+          },
+          "years_experience": {
+            "type": "integer",
+            "format": "int64",
+            "example": 5
+          }
+        }
+      },
+      "Course": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "code": {
+            "type": "string",
+            "example": 123456789
+          },
+          "name": {
+            "type": "string",
+            "example": "Cálculo 1"
+          },
+          "precourse_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": null
+          },
+          "faculty_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "required_credits": {
+            "type": "integer",
+            "format": "int64",
+            "example": 4
+          },
+          "enrolled_students": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "max_students": {
+            "type": "integer",
+            "format": "int64",
+            "example": 30
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "account_auth": {
+        "type": "apiKey",
+        "name": "token",
+        "in": "header"
+      }
+    }
+  }
+}

@@ -1,6 +1,8 @@
 import express from 'express'
 import cors from 'cors'
 import { config } from 'dotenv'
+import swaggerUi from 'swagger-ui-express'
+import * as swaggerDocument from './swaggerDoc.json'
 config()
 
 const PORT = process.env.PORT || 3000
@@ -9,6 +11,7 @@ const app = express()
 // Middlewares
 app.use(cors())
 app.use(express.json())
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 // Routes
 import students from './routes/student.routes'
@@ -28,6 +31,7 @@ app.get('/', (_, res) => {
   <h1>SophosU API</h1>
   <p>These are the avaliable endpoints:</p>
   <ul>
+    <li><a href="/docs">API Documentation</a></li>
     <li><a href="/students">Students</a></li>
     <li><a href="/teachers">Teachers</a></li>
     <li><a href="/courses">Courses</a></li>
