@@ -47,14 +47,14 @@ export async function createCourse (req: Request, res: Response) {
   } = req.body
 
   if (
-    !code || !name || !precourse_id ||
+    !code || !name ||
     !faculty_id || !required_credits ||
     !max_students || !enrolled_students
   ) return res.status(400).json({ error: 'Missing course data' })
 
   try {
     const course = await CourseServices.createCourse({
-      code, name, precourse_id,
+      code, name, precourse_id: precourse_id || null,
       faculty_id, required_credits,
       max_students, enrolled_students
     })
