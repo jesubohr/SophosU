@@ -1,0 +1,9 @@
+
+npm-debug.log
+**/.git
+**/.DS_Store
+**/node_modules
+
+.dockerignore
+Dockerfile
+docker-compose.yml
